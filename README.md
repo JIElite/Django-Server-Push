@@ -5,15 +5,21 @@
 demo 的方式是用 d3 word cloud 文字雲的方式。
 
 目前實作一種觸發的方法：
-1. HTTP request ---> Django Server --- websocket ---> client (display word cloud)
-2. websocket client ---> Django Server --- websocket ---> client (預計實作項目)
+** HTTP request ---> Django Server --- websocket ---> client (display word cloud) **
+
+預計實作：
+** websocket client ---> Django Server --- websocket ---> client **
+
 
 ## How to use?
 進入 /project
-`$ python3 manage.py runserver`
+
+` $ python3 manage.py runserver `
 
 開啟網頁：
-`http://127.0.0.1:8000/wordcloud/`
+
+` http://127.0.0.1:8000/wordcloud/ `
+
 
 ## The Usage of Files
 * /notification_script
@@ -29,13 +35,12 @@ demo 的方式是用 d3 word cloud 文字雲的方式。
 
 ## Dependency Package
 Websocket 的實作，使用 channels 這個套件。
+
 Channels: https://channels.readthedocs.io/en/latest/
 
 ## 獨立運作
-我們設定如果是用 in-memory 的方式的話，views handler, channels worker 都會在同一個 process 中。
-這對 scaling 是不利的。
-如果要將他們分散開來的話，可以更改 setting.py 將 Channel_Layer 配置為 redis
-並且新增 asgi.py 到專案目錄下。
+我們設定如果是用 in-memory 的方式的話，views handler, channels worker 都會在同一個 process 中。這對 scaling 是不利的。
+如果要將他們分散開來的話，可以更改 setting.py 將 Channel_Layer 配置為 redis 。並且新增 asgi.py 到專案目錄下。
 
 在執行的時候就可以區分開來：
 ``` 
