@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<script>
+		socket_list = [];
+		var cloud_num = 0;
+		
+function getRandomColor(i) {
+	fontColor = ["#FFBB00", "#FF8800", "#DDAA00", "#AA7700", "#CC6600"];
+	return fontColor[i%5];
+}
+
+function wordCloud(selector) {
+
+    //var fill = d3.scale.category10();
+    var fill = d3.scale.category10();
+
+    //Construct the word cloud's SVG element
+    var svg = d3.select(selector).append("svg")
+        .attr("width", 1200)
+        .attr("height", 560)
+        .append("g")
+        .attr("transform", "translate(600,300)");
+
+
+    //Draw the word cloud
+    function draw(words) {
+        var cloud = svg.selectAll("g text")
+                        .data(words, function(d) { return d.text; })
+
+        //Entering words
+        cloud.enter()
+            .append("text")
+            .style("font-family", " dynamic_font,dynamic_font2 Gothic MB101 DemiBold")
+            .style("font-weight", "600")
+            .style("fill", function(d, i) { return getRandomColor(i); })
+            .attr("text-anchor", "middle")
+            .attr('font-size', 1)
+            .text(function(d) { return d.text; });
+
+        //Entering and existing words
+        cloud
+            .transition()
+                //.duration(500)
+	    .duration(function(d, i){ return (100-i)*10})
+                .style("font-size", function(d) { return d.size + "px"; })
+		.attr({
+			"opacity":1,
+			"transform": function(d) {  return "translate(" + d.x + "," + d.y + ")rotate(" + d.rotate + ")"; }
+		})
+                .style("fill-opacity", 1);
+
+        //Exiting words
+        cloud.exit()
+            .transition()
+                //.duration(200)
+	    	.duration(function(d, i){ return (100-i)*10})
+		.attr({
+		"opacity":0,
+		"transform": function(d) { return "translate(" + d.x + "," + d.y + ")rotate(" + d.rotate + ")"; }
+		})
+                //.style('fill-opacity', 1e-6)
+                .attr('font-size', 1)
+                .remove();
+    }
+
+
+    return {
+        //Recompute the word cloud for a new set of words. This method will
+        // asycnhronously call draw when the layout has been computed.
+        //The outside world will need to call this function, so make it part
+        // of the wordCloud return value.
+        update: function(words) {
+            d3.layout.cloud().size([700, 500])
+                .words(words)
+                .padding(5)
+                //.rotate(function() { return ~~(Math.random() * 2) * 45; })
+                .rotate(function() { return 0; })
+                .font(" dynamic_font,dynamic_font2 Gothic MB101 DemiBold")
+                .fontSize(function(d) { return d.size; })
+                .on("end", draw)
+                .start();
+        }
+    }
+
+}
+		
+	</script>
+</head>
+
+<body>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+  <div id="word_cloud_canvas" class="word_clouds" style="text-align:center"></div>
+
+<script>
+
+// Multiple WebSocket
+for (var i = 0; i < 5; i++) {
+	
+	socket = new WebSocket("ws://127.0.0.1:8000/receive/");
+	socket.onopen = function() {
+		
+		cloud_num += 1;
+		
+		// initialize word cloud div clock	
+		var canvas = document.getElementById('word_cloud_canvas');
+		var word_cloud_block = document.createElement("div");
+		word_cloud_block.setAttribute("id", "cloud"+cloud_num);
+		word_cloud_block.setAttribute("class", "inner");
+		word_cloud_canvas.appendChild(word_cloud_block);
+	
+		// create word cloud object
+		this.cloud = new wordCloud('#cloud' + cloud_num);
+		
+		console.log("socket open");
+		this.send(
+			// used to hand shake, determined the channel group
+			JSON.stringify({"group": "topic_word" + cloud_num})
+		);
+	}
+
+	socket.onmessage = function(e) {
+		
+		var word_json_list;
+		word_json_list = JSON.parse(e.data);
+		console.log(word_json_list);
+
+		result = [];
+		scalar = 80;
+		for (i = 0; i < word_json_list.length; i++) {
+			result.push({text:word_json_list[i]['word'], size:word_json_list[i]['weight'] * scalar + 7});
+		}
+		
+		this.cloud.update(result);
+	}
+
+	socket_list.push(socket);
+}
+
+</script>
+
