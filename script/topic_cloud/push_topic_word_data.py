@@ -49,13 +49,18 @@ def push_data(data_list):
                "topic": topic_data["title"],
                "data": topic_data["data"],
         }
+        
+        resp = upload_data(payload)
+        
+        # 控制 data deliver 的速率
+        time.sleep(1)
 
-    resp = upload_data(payload)
-    return resp
+    # mark end
+    return
 
 
 if __name__ == "__main__":
     topic_cloud_json_data = transfer_topic_csv_to_pyobj("./data/LDA_Doc_dummyA.csv")
-    push_data(transfer_topic_csv_to_pyobj)
+    push_data(topic_cloud_json_data)
 
 
