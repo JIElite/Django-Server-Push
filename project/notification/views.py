@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from channels import Group
 
 @csrf_exempt
-def display(request):
+def collect_data(request):
     if request.method != "POST":
         return HttpResponse(status=405)
     
@@ -15,4 +15,4 @@ def display(request):
 
     return HttpResponse(status=200)
 
-
+    

@@ -9,7 +9,7 @@ payload = {
                 {"word": "hello", "freq": 700}]
            }
 
-resp = requests.post("http://127.0.0.1:8000/notification/display/", 
+resp = requests.post("http://127.0.0.1:8000/notification/collect_data/", 
         data=json.dumps(payload),
         headers={'content-type':'application/json'})
 
@@ -23,7 +23,7 @@ payload2 = {
                 {"word": "Night", "freq": 700}]
            }
 
-resp = requests.post("http://127.0.0.1:8000/notification/display/", 
+resp = requests.post("http://127.0.0.1:8000/notification/collect_data/", 
         data=json.dumps(payload2),
         headers={'content-type':'application/json'})
 
