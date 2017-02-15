@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import collect_data 
+from .views import deliver_websock_group_data 
 
 urlpatterns = [
-    url(r'^display/', collect_data),
+    url(r'^collect_data/', deliver_websock_group_data),
 ]
 

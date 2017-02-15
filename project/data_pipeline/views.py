@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from channels import Group
 
 @csrf_exempt
-def collect_data(request):
+def deliver_websock_group_data(request):
     if request.method != "POST":
         return HttpResponse(status=405)
     
