@@ -16,7 +16,7 @@ websocket client ---> Django Server --- websocket ---> client
 ` $ python3 manage.py runserver `
 
 開啟網頁：</br>
-` http://127.0.0.1:8000/wordcloud/ `
+` http://127.0.0.1:8000/wordcloud/demo`
 
 
 ## The Usage of Files

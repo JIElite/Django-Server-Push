@@ -19,6 +19,6 @@ from .views import word_cloud, topic_cloud
 
 
 urlpatterns = [
-    url(r'^display/', word_cloud),
+    url(r'^demo/', word_cloud),
     url(r'^topic_cloud/', topic_cloud),
 ]
