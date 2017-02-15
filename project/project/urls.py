@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from word_cloud.views import word_cloud
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^wordcloud/', word_cloud),
-    url(r'^notification/', include('notification.urls')),
+    url(r'^wordcloud/', include('word_cloud.urls')),
+    url(r'^data_pipeline/', include('data_pipeline.urls')),
 ]

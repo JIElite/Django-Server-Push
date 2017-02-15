@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     
     'websock',
     'word_cloud',
-    'notification',
+    'data_pipeline',
 ]
 
 CHANNEL_LAYERS = {
