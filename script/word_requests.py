@@ -6,14 +6,14 @@ import time
 
 payload = {
            "group":"display_word",
-           "data":
+           "words":
                 [{"word": "socket", "freq": 600},
                 {"word": "hello", "freq": 700}]
            }
 
 payload2 = {
            "group":"display_word",
-           "data":
+           "words":
                 [{"word": "Good", "freq": 600},
                 {"word": "Night", "freq": 700}]
            }

@@ -107,8 +107,8 @@ var myWordCloud = wordCloud('#cloud');
 socket.onmessage = function(e) {
 	
 	var word_json_list;
-	word_json_list = JSON.parse(e.data);
-	console.log(word_json_list);
+	json_data = JSON.parse(e.data);
+	word_json_list = json_data.words;
 
 	result = [];
 	scalar = 120 / word_json_list[0]['freq'];

@@ -47,7 +47,7 @@ def push_data(data_list):
                # group is used for recognized the group of websocket
                "group": "topic_word" + str(index+1),
                "topic": topic_data["title"],
-               "data": topic_data["data"],
+               "words": topic_data["data"],
         }
         
         resp = upload_data(payload)

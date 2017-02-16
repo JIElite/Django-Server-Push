@@ -102,14 +102,19 @@ for (var i = 0; i < 5; i++) {
 	socket.onopen = function() {
 		
 		cloud_num += 1;
-		
+			
 		// initialize word cloud div clock	
 		var canvas = document.getElementById('word_cloud_canvas');
+		var topic_title = document.createElement("h1");
 		var word_cloud_block = document.createElement("div");
+		
 		word_cloud_block.setAttribute("id", "cloud"+cloud_num);
 		word_cloud_block.setAttribute("class", "inner");
+		word_cloud_canvas.appendChild(topic_title);
 		word_cloud_canvas.appendChild(word_cloud_block);
 	
+
+		this.title = topic_title;
 		// create word cloud object
 		this.cloud = new wordCloud('#cloud' + cloud_num);
 		
@@ -123,9 +128,12 @@ for (var i = 0; i < 5; i++) {
 	socket.onmessage = function(e) {
 		
 		var word_json_list;
-		word_json_list = JSON.parse(e.data);
-		console.log(word_json_list);
-
+		json_message = JSON.parse(e.data);
+		
+		topic = json_message.topic;
+		word_json_list = json_message.words;
+		this.title.innerHTML = topic;
+		
 		result = [];
 		scalar = 80;
 		for (i = 0; i < word_json_list.length; i++) {
