@@ -11,8 +11,10 @@ def deliver_websock_group_data(request):
         return HttpResponse(status=405)
     
     json_data = json.loads(request.body.decode('utf-8'))
-    Group(json_data['group']).send({"text": json.dumps(json_data['data'])})
+    
+    Group(json_data['group']).send(
+            {
+                "text": json.dumps(json_data)
+            })
 
     return HttpResponse(status=200)
-
-    
